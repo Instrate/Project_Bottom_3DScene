@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Scene": {
+      "commandName": "Project",
+      "workingDirectory": "D:\\Development\\C#\\Project_Lab_3D_Scene\\Scene"
+    }
+  }
+}
