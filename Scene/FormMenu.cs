@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
@@ -26,42 +26,19 @@ namespace Scene
         Scene scene;
         string PATH_WORKING_DIR = "./";
         Size dW;
+        unsafe IGraphicsContext controlToContext = new GLFWGraphicsContext(null);
 
         public FormMenu()
         {
             InitializeComponent();
-            double targetFrames = 15;
-            int interval = Convert.ToInt32(1000.0 / targetFrames);
-            timerTick.Interval = interval;
             dW = this.Size;
             dW.Width -= glScene.Width;
             dW.Height -= glScene.Height;
         }
 
-        private void buttonLoadScene(object sender, EventArgs e)
-        {
-            //NativeWindowSettings nativeWindowSettings = new NativeWindowSettings()
-            //{
-            //    Size = new Vector2i(int.Parse(textWidth.Text), int.Parse(textHeight.Text)),
-            //    Title = "Test",
-            //};
-            //_window = new Window(GameWindowSettings.Default, nativeWindowSettings);
-            //_window = new Window(GameWindowSettings.Default, nativeWindowSettings);
-            //_window.Run();
-            //_window.CenterWindow();
-
-
-            //timerTick.Enabled = true;
-        }
-
         private void formOnResize(object sender, EventArgs e)
         {
 
-        }
-
-        private void eventTickTimer(object sender, EventArgs e)
-        {
-            Render();
         }
 
         private void OnResize(object sender, EventArgs e)
@@ -84,8 +61,6 @@ namespace Scene
 
             glScene.Resize += glOnResize;
             glScene.Select();
-
-            timerTick.Enabled = true;
 
             dataLoad();
         }
@@ -127,6 +102,9 @@ namespace Scene
             GL.Enable(EnableCap.DepthTest);
             GL.Viewport(0, 0, glScene.Width, glScene.Height);
             glScene.Invalidate();
+            GL.Flush();
+            GL.Viewport(0, 0, glProfile.Width, glProfile.Height);
+            glProfile.Invalidate();
         }
 
         private void glOnResize(object sender, EventArgs e)
@@ -138,26 +116,30 @@ namespace Scene
 
         double frame = 0;
         private void Render()
-        {
+        {    
+            // Simple displaying amount of elapsed time
             textFrames.Text = frame.ToString();
             frame += 1;
-
+            // render time
             glScene.MakeCurrent();
-
+            glProfile.Invalidate();
+            GL.ClearColor(Color.FromArgb(88, 94, 93, 255));
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             scene.OnRender();
+            GL.Flush();
             glScene.SwapBuffers();
         }
 
+        // Render the "Main" GL viewport
         private void glOnPaint(object sender, PaintEventArgs e)
         {
             Render();
         }
-
+        
+        // Render when mouse moves
         private void glOnDraw(object sender, MouseEventArgs e)
         {
             scene.OnMouseMove(e);
-
             Render();
         }
 
@@ -173,12 +155,13 @@ namespace Scene
 
         private void OnKeyPress(object sender, KeyPressEventArgs e)
         {
-
+            // doesn't work
         }
 
         private void OnKeyPrewDown(object sender, PreviewKeyDownEventArgs e)
         {
             scene.OnKeyDown(e);
+            Render();
         }
 
         private void OnKeyUp(object sender, KeyEventArgs e)
@@ -222,9 +205,8 @@ namespace Scene
             {
                 v2[i] = float.Parse(dataSection.Rows[1].Cells[i].Value.ToString());
             }
+            scene.doSection(v1, v2);
             tabGLControls.SelectedIndex = 1;
-            //glScene
-            //glProfile.MakeCurrent();
         }
 
 
@@ -238,7 +220,13 @@ namespace Scene
 
         private void glProfile_OnPaint(object sender, PaintEventArgs e)
         {
-            //render this
+            glProfile.MakeCurrent();
+            glProfile.Invalidate();
+            GL.ClearColor(Color.FromArgb(255, 255, 204, 255));
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            
+            GL.Flush();
+            glProfile.SwapBuffers();
         }
     }
 }

@@ -34,6 +34,13 @@ namespace Scene
             return Convert.ToSingle((Math.Sin(x) - Math.Cos(y) + Math.Sin(x + y) - Math.Cos(x + y)) * Math.Cos(x - y));
         }
 
+        public static float funcLine(float x, float x1, float x2, float y1, float y2, float z1, float z2)
+        {
+            return z1 + (((x - x1)/(x2 - x1)*(y2 - y1) - y1)*(x2 - x1)*(z2 - z1)) /(y2 - y1)*(x - x1);
+        }
+
+
+
         public static float[] arrange(float start, float end, uint amount)
         {
             float h = (end - start) / amount;

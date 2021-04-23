@@ -116,17 +116,15 @@ namespace Scene
             this.glScene.MouseMove += new System.Windows.Forms.MouseEventHandler(this.glOnDraw);
             this.glScene.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.OnKeyPrewDown);
             // 
-            // timerTick
-            // 
-            this.timerTick.Tick += new System.EventHandler(this.eventTickTimer);
-            // 
             // menuTop
             // 
-            this.menuTop.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.menuTop.BackColor = System.Drawing.Color.White;
+            this.menuTop.Font = new System.Drawing.Font("Arial", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.menuTop.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             this.menuTop.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuTopComboBuild,
-            this.menuTopMethodChangeKeys});
+            this.menuTopMethodChangeKeys,
+            this.menuTopComboBuild});
             this.menuTop.Location = new System.Drawing.Point(0, 0);
             this.menuTop.Name = "menuTop";
             this.menuTop.Size = new System.Drawing.Size(1582, 32);
@@ -136,15 +134,15 @@ namespace Scene
             // menuTopComboBuild
             // 
             this.menuTopComboBuild.AccessibleRole = System.Windows.Forms.AccessibleRole.Cursor;
-            this.menuTopComboBuild.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.menuTopComboBuild.MaxDropDownItems = 2;
             this.menuTopComboBuild.Name = "menuTopComboBuild";
             this.menuTopComboBuild.Size = new System.Drawing.Size(121, 28);
-            this.menuTopComboBuild.Text = "Build";
+            this.menuTopComboBuild.Text = "Camera";
             // 
             // menuTopMethodChangeKeys
             // 
             this.menuTopMethodChangeKeys.Name = "menuTopMethodChangeKeys";
-            this.menuTopMethodChangeKeys.Size = new System.Drawing.Size(87, 28);
+            this.menuTopMethodChangeKeys.Size = new System.Drawing.Size(99, 28);
             this.menuTopMethodChangeKeys.Text = "Keyboard";
             // 
             // panel1

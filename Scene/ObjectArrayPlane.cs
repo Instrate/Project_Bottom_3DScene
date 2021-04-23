@@ -23,7 +23,7 @@ namespace Scene
         public uint rows;
         public uint cols;
 
-        public ObjectArrayPlane(float[] x, float[] y, float[][] z, Shader shader, bool isTextured)
+        public ObjectArrayPlane(float[] x, float[] y, float[][] z, Shader shader, bool isTextured = true)
         {
             
             rows = (uint)x.Length - 1;

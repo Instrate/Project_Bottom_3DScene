@@ -18,7 +18,6 @@ namespace Scene
     {
         public Square box;
 
-        //ObjectArrayPlane plane;
 
         public ObjectArrayPlane bottom;
 
@@ -30,13 +29,6 @@ namespace Scene
             float[] v2 = { x, y, z };
             box = new Square(v1, v2);
             box.loadShaderDependence(shader);
-
-            //x *= 2;
-            //y *= 2;
-            //z = z - 1f;
-            //uint n = 10;
-            //plane = new ObjectArrayPlane(-x, +x, -y, +y, z, n, n, shader);
-            //plane.loadTextureFromFile("Resources/plane.png");
 
             float s = -10f;
             float e = 10f;
@@ -54,10 +46,15 @@ namespace Scene
                     Z[i][j] += 2;
                 }
             }
-            bottom = new ObjectArrayPlane(X, Y, Z, shader, true);
+            defineBottom(X, Y, Z, shader);
+        }
+
+        public void defineBottom(float[] x, float[] y, float[][] z, Shader shader)
+        {
+            bottom = new ObjectArrayPlane(x, y, z, shader);
             bottom.loadTextureFromFile("Resources/sqr.png");
         }
-        
+
         public void loadTextureFromFile(string path)
         {
             box.loadTextureFromFile(path);

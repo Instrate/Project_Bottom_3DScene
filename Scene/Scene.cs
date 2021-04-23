@@ -72,7 +72,10 @@ namespace Scene
             _shader.Use();
 
             _landscape.OnRenderFrame(_shader);
+        }
 
+        public void OnRenderProfile()
+        {
             if (profile != null)
             {
                 profile.OnRenderFrame(_shader);
@@ -170,16 +173,95 @@ namespace Scene
 
         public void doSection(float[] v1, float[] v2, bool isTextured = true)
         {
-            if (profile == null)
-            {
-                profile = new Square(v1, v2, isTextured);
-            }
-            else
-            {
-                profile = new Square(v1, v2, isTextured);
-            }
+            profile = new Square(v1, v2, isTextured);
             profile.loadShaderDependence(_shader);
         }
 
+        public float[][] doVerticesToArray(float[] vert)
+        {
+            int size = vert.Length;
+            int points = 4;
+            int offset = size / points;
+            float[][] matr = new float[points][];
+            for(short i = 0; i < points; i++)
+            {
+                matr[i] = new float[3];
+                for(short j = 0; j < 3; j++)
+                {
+                    matr[i][j] = 0;
+                }
+            }
+            for(int ii = 0, i = 0, j = 0; i < points; ii -= 3, ii = ii + offset, i++, j = 0)
+            {
+                matr[i][j] = vert[ii];
+                ii++; j++;
+                matr[i][j] = vert[ii];
+                ii++; j++;
+                matr[i][j] = vert[ii];
+            }
+            return doFindMinMaxVector(matr);
+        }
+
+        public float[][] doFindMinMaxVector(float[][] matr)
+        {
+            float[][] vert = new float[2][];
+            for(short i = 0; i < 2; i++)
+            {
+                vert[i] = new float[3];
+                for(short j = 0; j < 3; j++)
+                {
+                    vert[i][j] = matr[i][j];
+                }
+            }
+                
+            for(short i = 0; i < 4; i++)
+            {
+                for(short j = 0; j < 3; j++)
+                {
+                    if(vert[0][j] > matr[i][j])
+                    {
+                        vert[0][j] = matr[i][j];
+                    } 
+                    if (vert[1][j] < matr[i][j])
+                    {
+                        vert[1][j] = matr[i][j]; 
+                    }
+                    
+                    
+                }
+            }
+            return vert;
+        }
+
+        // find where section crosses the bottom
+        public void doCalculate()
+        {
+            float[][] sect = doVerticesToArray(profile._vertices);
+            uint rows = _landscape.bottom.rows;
+            uint cols = _landscape.bottom.cols;
+            uint size = rows * cols;
+            float[][][] btm = new float[size][][];
+            for(uint i = 0, k = 0; i < cols; i++)
+            {
+                for (uint j = 0; j < rows; j++)
+                {
+                    btm[k] = doVerticesToArray(_landscape.bottom.squares[i][j]._vertices);
+                    k++;
+                }
+            }
+
+            float[][] flsect = new float[size][];
+            for (uint i = 0, j = 0; i < size; i++)
+            {
+                if(sect[1][0] >= btm[i][0][0] && sect[1][1] >= btm[i][0][1])
+                {
+                    flsect[j] = new float[3];
+                    
+                    //calculation stuff
+                    j++;
+                }
+            }
+              
+        }
     }
 }
