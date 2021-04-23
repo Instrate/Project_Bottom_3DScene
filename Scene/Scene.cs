@@ -253,7 +253,8 @@ namespace Scene
             float[][] flsect = new float[size][];
             for (uint i = 0, j = 0; i < size; i++)
             {
-                if (sect[1][0] >= btm[i][0][0] && sect[1][1] >= btm[i][0][1])
+                if (sect[1][0] >= btm[i][0][0] && sect[1][1] >= btm[i][0][1] &&
+                    sect[0][0] <= btm[i][1][0] && sect[0][1] <= btm[i][1][1])
                 {
                     float x1 = sect[0][0];
                     float x2 = sect[1][0];
@@ -263,19 +264,40 @@ namespace Scene
                     float y2 = sect[1][1];
                     float y3 = btm[i][0][1];
                     float y4 = btm[i][1][1];
+
+                    
+                    
                     float p = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-                    flsect[j] = new float[3];
                     float x0 = ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)) / p;
                     float y0 = ((x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4)) / p;
+                    float z = 0;
+                    if (x1 == x3 && y1 != y3)
+                    {
+                        float c = Math.Abs(btm[i][0][2] - btm[i][1][2]);
+                        float x = Math.Abs(y3 - y0);
+                        float y = Math.Abs(y4 - y0);
+                        float k = x / y;
+                        float a = 1.0f / (1.0f + k);
+                        z = a * c + btm[i][0][2];
+                    }
+                    else if (y1 == y3 && x1 != x3)
+                    {
+                        float c = Math.Abs(btm[i][0][2] - btm[i][1][2]);
+                        float x = Math.Abs(x3 - x0);
+                        float y = Math.Abs(x4 - x0);
+                        float k = x / y;
+                        float a = 1.0f / (1.0f + k);
+                        z = a * c + btm[i][0][2];
+                    }
+                    else
+                    {
+                        z = btm[i][0][2];
+                    }
 
-                    float k10 = (y1 - y0) / (x1 - x0);
-                    float k20 = (y3 - y0) / (x3 - x0);
-                    float tgAngle = Math.Abs((k10 - k20) / (1 + k10 * k20));
-                    float X1 = Math.Abs(x3 - x0) * tgAngle;
-                    //calculation stuff
-                    flsect[j][0] = X1;
-                    flsect[j][1] = 0;
-                    flsect[j][2] = 0;
+                    flsect[j] = new float[3];
+                    flsect[j][0] = x0;
+                    flsect[j][1] = y0;
+                    flsect[j][2] = z;
                     j++;
                 }
             }
