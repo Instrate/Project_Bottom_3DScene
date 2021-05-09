@@ -16,6 +16,7 @@ namespace Scene
 {
     class Square
     {
+        // vertices(3) > color(3) > texture(2)
         public float[] _vertices;
 
         int size;
@@ -44,13 +45,24 @@ namespace Scene
             0, 1, 3,
             1, 2, 3
         };
-
+        
         Texture texture;
-        bool _textureEnable;
 
         public Square(float[] x, float[] y, float[] z)
         {
             _buildVertice(x, y, z);
+            _standartBuildAndLoad();
+        }
+
+        public Square(float[] v1, float[] v2)
+        {
+            _buildVertice(v1, v2);
+            _standartBuildAndLoad();
+        }
+        
+        // use other functions to continue building
+        private void _standartBuildAndLoad()
+        {
             _buildTextureVertice();
             _buildColorVertice();
             _loadBufferObject();
@@ -58,23 +70,7 @@ namespace Scene
             _loadElementBufferObject();
         }
 
-        public Square(float[] v1, float[] v2, bool isTextured = true)
-        {
-            _textureEnable = isTextured;
-            _buildVertice(v1, v2);
-            if (isTextured == true)
-            {
-                _buildTextureVertice();
-            }
-            else
-            {
-                _buildColorVertice();
-            }
-            _loadBufferObject();
-            _loadArrayObject();
-            _loadElementBufferObject();
-        }
-
+        // build vertices by x,y,z coords
         void _buildVertice(float[] x, float[] y, float[] z)
         {
             size = 24;
@@ -94,6 +90,7 @@ namespace Scene
             _vertices[2 + 3 * off] = z[3]; // z
         }
 
+        // build vertices by vector points
         void _buildVertice(float[] v1, float[] v2)
         {
             size = 24;
@@ -113,6 +110,7 @@ namespace Scene
             _vertices[2 + 3 * off] = v2[2]; // z
         }
 
+        // add texture coords to vertices
         void _buildTextureVertice()
         {
             for (int i = 3, j = 0; i < _vertices.Length; i += off - 2, j += 1)
@@ -125,6 +123,8 @@ namespace Scene
             }
         }
 
+
+        // add color values to vertices
         void _buildColorVertice()
         {
             int offset = _vertices.Length / 4;
@@ -138,6 +138,7 @@ namespace Scene
             }
         }
 
+        // load buffer object to be able to draw
         void _loadBufferObject()
         {
             _vertexBufferObject = GL.GenBuffer();
@@ -145,6 +146,7 @@ namespace Scene
             GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
         }
 
+        // enable vertices binding for OpenGL
         void _loadArrayObject()
         {
             _vertexArrayObject = GL.GenVertexArray();
@@ -153,6 +155,7 @@ namespace Scene
             GL.EnableVertexAttribArray(0);
         }
 
+        // explain how to build vertices by indices
         void _loadElementBufferObject()
         {
             _elementBufferObject = GL.GenBuffer();
@@ -160,6 +163,7 @@ namespace Scene
             GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
         }
 
+        // use shader program to calculate the visual look
         public void loadShaderDependence(Shader shader)
         {
             var vertexLocation = shader.GetAttribLocation("aPos");
@@ -167,57 +171,50 @@ namespace Scene
             GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, off * sizeof(float), 0);
 
             int texCoordLocation;
-            if (_textureEnable == true) { 
-                texCoordLocation = shader.GetAttribLocation("aTexCoord");
-            }
-            else
-            {
-                texCoordLocation = shader.GetAttribLocation("aColor");
-            }
+            texCoordLocation = shader.GetAttribLocation("aTexCoord");
+            //else
+            //{
+            //    texCoordLocation = shader.GetAttribLocation("aColor");
+            //}
             GL.EnableVertexAttribArray(texCoordLocation);
-            if (_textureEnable == true)
-            {
-                GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, off * sizeof(float), 3 * sizeof(float));
-            }
-            else
-            {
-                GL.VertexAttribPointer(texCoordLocation, 3, VertexAttribPointerType.Float, false, off * sizeof(float), 6 * sizeof(float));
-            }
+            GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, off * sizeof(float), 3 * sizeof(float));
+            //else
+            //{
+            //    GL.VertexAttribPointer(texCoordLocation, 3, VertexAttribPointerType.Float, false, off * sizeof(float), 6 * sizeof(float));
+            //}
         }
 
+        // load texture from file
         public void loadTextureFromFile(string path)
         {
             texture = Texture.LoadFromFile(path);
             texture.Use(TextureUnit.Texture0);
         }
 
+        // render the triangular square 
         public void OnRenderFrame(Shader shader)
         {
-            if (_textureEnable == true)
-            {
-                texture.Use(TextureUnit.Texture0);
-            }
+            texture.Use(TextureUnit.Texture0);
             shader.Use();
             GL.BindVertexArray(_vertexArrayObject);
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
             return;
         }
 
+        // uses when the square is a part of a complex object
         public void OnRenderFrameArray(Shader shader)
         {
             GL.BindVertexArray(_vertexArrayObject);
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
         }
 
+        // destruct dependencies
         public void OnUnload()
         {
             GL.DeleteBuffer(_vertexBufferObject);
             GL.DeleteBuffer(_elementBufferObject);
             GL.DeleteVertexArray(_vertexArrayObject);
-            if (_textureEnable == true)
-            {
-                GL.DeleteTexture(texture.Handle);
-            }
+            GL.DeleteTexture(texture.Handle);
         }
     }
 }
