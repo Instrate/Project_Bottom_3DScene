@@ -16,6 +16,7 @@ namespace Scene
 {
     class ObjectArrayPlane
     {
+        // structure of an object
         public Square[][] squares;
 
         Texture texture;
@@ -23,7 +24,7 @@ namespace Scene
         public uint rows;
         public uint cols;
 
-        public ObjectArrayPlane(float[] x, float[] y, float[][] z, Shader shader, bool isTextured = true)
+        public ObjectArrayPlane(float[] x, float[] y, float[][] z, Shader shader)
         {
             
             rows = (uint)x.Length - 1;

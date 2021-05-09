@@ -77,7 +77,7 @@ namespace Scene
             }
             
 
-            float[][] data = scene._landscape.bottom.GetMesh();
+            //float[][] data = scene._landscape.bottom.GetMesh();
             DataTable matrix = new DataTable("Mesh");
             matrix.Clear();
             //for (uint i = 0; i < data.Length; i++)
@@ -208,7 +208,6 @@ namespace Scene
             scene.doSection(v1, v2);
             tabGLControls.SelectedIndex = 1;
         }
-
 
         private void glProfile_OnLoad(object sender, EventArgs e)
         {

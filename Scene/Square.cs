@@ -16,10 +16,10 @@ namespace Scene
 {
     class Square
     {
-        // vertices(3) > color(3) > texture(2)
+        // vertices(3) > color(3) > texture(2) = 8
         public float[] _vertices;
 
-        int size;
+        int size = 32;
         int off;
 
         int _vertexBufferObject;
@@ -73,7 +73,6 @@ namespace Scene
         // build vertices by x,y,z coords
         void _buildVertice(float[] x, float[] y, float[] z)
         {
-            size = 24;
             off = size / 4;
             _vertices = new float[size];
             _vertices[0] = x[1]; // x
@@ -93,7 +92,6 @@ namespace Scene
         // build vertices by vector points
         void _buildVertice(float[] v1, float[] v2)
         {
-            size = 24;
             off = size / 4;
             _vertices = new float[size];
             _vertices[0] = v2[0]; // x

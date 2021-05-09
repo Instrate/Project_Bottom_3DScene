@@ -18,10 +18,9 @@ namespace Scene
     {
         public Square box;
 
-
         public ObjectArrayPlane bottom;
 
-        public World(float x, float y, float z, Shader shader)
+        public World(float x, float y, float z, Shader shader, bool isTextured = true)
         {
             x /= 2f;
             y /= 2f;
@@ -46,7 +45,7 @@ namespace Scene
                     Z[i][j] += 2;
                 }
             }
-            defineBottom(X, Y, Z, shader);
+            //defineBottom(X, Y, Z, shader);
         }
 
         public void defineBottom(float[] x, float[] y, float[][] z, Shader shader)
@@ -64,7 +63,7 @@ namespace Scene
         {
             box.OnRenderFrame(shader);
             //plane.OnRenderFrame(shader);
-            bottom.OnRenderFrame(shader);
+            //bottom.OnRenderFrame(shader);
         }
 
         public void OnUnload()
