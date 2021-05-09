@@ -48,18 +48,11 @@ namespace Scene
         Texture texture;
         bool _textureEnable;
 
-        public Square(float[] x, float[] y, float[] z, bool isTextured = true)
+        public Square(float[] x, float[] y, float[] z)
         {
-            _textureEnable = isTextured;
             _buildVertice(x, y, z);
-            if (isTextured == true)
-            {
-                _buildTextureVertice();
-            }
-            else
-            {
-                _buildColorVertice();
-            }
+            _buildTextureVertice();
+            _buildColorVertice();
             _loadBufferObject();
             _loadArrayObject();
             _loadElementBufferObject();
@@ -169,7 +162,7 @@ namespace Scene
 
         public void loadShaderDependence(Shader shader)
         {
-            var vertexLocation = shader.GetAttribLocation("aPosition");
+            var vertexLocation = shader.GetAttribLocation("aPos");
             GL.EnableVertexAttribArray(vertexLocation);
             GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, off * sizeof(float), 0);
 
@@ -200,7 +193,10 @@ namespace Scene
 
         public void OnRenderFrame(Shader shader)
         {
-            texture.Use(TextureUnit.Texture0);
+            if (_textureEnable == true)
+            {
+                texture.Use(TextureUnit.Texture0);
+            }
             shader.Use();
             GL.BindVertexArray(_vertexArrayObject);
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
@@ -218,7 +214,10 @@ namespace Scene
             GL.DeleteBuffer(_vertexBufferObject);
             GL.DeleteBuffer(_elementBufferObject);
             GL.DeleteVertexArray(_vertexArrayObject);
-            GL.DeleteTexture(texture.Handle);
+            if (_textureEnable == true)
+            {
+                GL.DeleteTexture(texture.Handle);
+            }
         }
     }
 }
