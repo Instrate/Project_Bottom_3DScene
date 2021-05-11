@@ -35,10 +35,10 @@ namespace Scene
 
         public readonly float[] color =
         {
-            0f, 0f, 0f,
-            0f, 0f, 0f,
-            0f, 0f, 0f,
-            0f, 0f, 0f
+            1f, 1f, 1f,
+            1f, 1f, 1f,
+            1f, 1f, 1f,
+            1f, 1f, 1f
         };
 
         public readonly uint[] _indices = {
@@ -111,6 +111,7 @@ namespace Scene
         // add texture coords to vertices
         void _buildTextureVertice()
         {
+            // BUG IS HERE
             for (int i = 3, j = 0; i < _vertices.Length; i += off - 2, j += 1)
             {
                 _vertices[i] = _t[j];
@@ -125,6 +126,8 @@ namespace Scene
         // add color values to vertices
         void _buildColorVertice()
         {
+
+            // BUG IS HERE
             int offset = _vertices.Length / 4;
             for(int i = 6, j = 0; i < _vertices.Length; i += offset, j++)
             {
@@ -164,22 +167,17 @@ namespace Scene
         // use shader program to calculate the visual look
         public void loadShaderDependence(Shader shader)
         {
-            var vertexLocation = shader.GetAttribLocation("aPos");
+            int vertexLocation = shader.GetAttribLocation("aPos");
             GL.EnableVertexAttribArray(vertexLocation);
             GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, off * sizeof(float), 0);
 
-            int texCoordLocation;
-            texCoordLocation = shader.GetAttribLocation("aTexCoord");
-            //else
-            //{
-            //    texCoordLocation = shader.GetAttribLocation("aColor");
-            //}
+            int normalLocation = shader.GetAttribLocation("aNormal");
+            GL.EnableVertexAttribArray(normalLocation);
+            GL.VertexAttribPointer(normalLocation, 3, VertexAttribPointerType.Float, false, off * sizeof(float), 3 * sizeof(float));
+
+            int texCoordLocation = shader.GetAttribLocation("aTexCoord");
             GL.EnableVertexAttribArray(texCoordLocation);
-            GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, off * sizeof(float), 3 * sizeof(float));
-            //else
-            //{
-            //    GL.VertexAttribPointer(texCoordLocation, 3, VertexAttribPointerType.Float, false, off * sizeof(float), 6 * sizeof(float));
-            //}
+            GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, off * sizeof(float), 6 * sizeof(float));
         }
 
         // load texture from file
