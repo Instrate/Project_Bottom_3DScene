@@ -111,14 +111,12 @@ namespace Scene
         // add texture coords to vertices
         void _buildTextureVertice()
         {
-            // BUG IS HERE
-            for (int i = 3, j = 0; i < _vertices.Length; i += off - 2, j += 1)
+            for (int i = 6, j = 0; i < _vertices.Length; i += off - 2, j += 1)
             {
                 _vertices[i] = _t[j];
                 i++; j++;
                 _vertices[i] = _t[j];
                 i++;
-                _vertices[i] = 0;
             }
         }
 
@@ -126,10 +124,8 @@ namespace Scene
         // add color values to vertices
         void _buildColorVertice()
         {
-
-            // BUG IS HERE
             int offset = _vertices.Length / 4;
-            for(int i = 6, j = 0; i < _vertices.Length; i += offset, j++)
+            for(int i = 3, j = 0; i < _vertices.Length; i += offset-2, j++)
             {
                 _vertices[i] = color[j];
                 i++; j++;
