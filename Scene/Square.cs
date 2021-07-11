@@ -120,7 +120,6 @@ namespace Scene
             }
         }
 
-
         // add color values to vertices
         void _buildColorVertice()
         {
@@ -186,11 +185,10 @@ namespace Scene
         // render the triangular square 
         public void OnRenderFrame(Shader shader)
         {
-            texture.Use(TextureUnit.Texture0);
+            //texture.Use(TextureUnit.Texture0);
             shader.Use();
             GL.BindVertexArray(_vertexArrayObject);
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
-            return;
         }
 
         // uses when the square is a part of a complex object
@@ -203,10 +201,10 @@ namespace Scene
         // destruct dependencies
         public void OnUnload()
         {
-            GL.DeleteBuffer(_vertexBufferObject);
-            GL.DeleteBuffer(_elementBufferObject);
-            GL.DeleteVertexArray(_vertexArrayObject);
-            GL.DeleteTexture(texture.Handle);
+            //GL.DeleteBuffer(_vertexBufferObject);
+            //GL.DeleteBuffer(_elementBufferObject);
+            //GL.DeleteVertexArray(_vertexArrayObject);
+            //GL.DeleteTexture(texture.Handle);
         }
     }
 }

@@ -45,7 +45,7 @@ namespace Scene
                     Z[i][j] += 2;
                 }
             }
-            //defineBottom(X, Y, Z, shader);
+            defineBottom(X, Y, Z, shader);
         }
 
         public void defineBottom(float[] x, float[] y, float[][] z, Shader shader)
@@ -63,7 +63,7 @@ namespace Scene
         {
             box.OnRenderFrame(shader);
             //plane.OnRenderFrame(shader);
-            //bottom.OnRenderFrame(shader);
+            bottom.OnRenderFrame(shader);
         }
 
         public void OnUnload()

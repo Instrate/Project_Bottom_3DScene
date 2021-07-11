@@ -51,8 +51,6 @@ namespace Scene
 
         private void OnLoad(object sender, EventArgs e)
         {
-            
-            
             Vector2i size = new Vector2i();
             size.X = glScene.Width;
             size.Y = glScene.Height;
@@ -145,7 +143,7 @@ namespace Scene
 
         private void glMouseMove(object sender, MouseEventArgs e)
         {
-            //scene.OnMouseMove(e);
+            // scene.OnMouseMove(e);
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)

@@ -41,8 +41,8 @@ namespace Scene
             this.glScene = new OpenTK.WinForms.GLControl();
             this.timerTick = new System.Windows.Forms.Timer(this.components);
             this.menuTop = new System.Windows.Forms.MenuStrip();
-            this.menuTopComboBuild = new System.Windows.Forms.ToolStripComboBox();
             this.menuTopMethodChangeKeys = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuTopComboBuild = new System.Windows.Forms.ToolStripComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.dataSection = new System.Windows.Forms.DataGridView();
@@ -131,6 +131,12 @@ namespace Scene
             this.menuTop.TabIndex = 6;
             this.menuTop.Text = "menuStrip1";
             // 
+            // menuTopMethodChangeKeys
+            // 
+            this.menuTopMethodChangeKeys.Name = "menuTopMethodChangeKeys";
+            this.menuTopMethodChangeKeys.Size = new System.Drawing.Size(99, 28);
+            this.menuTopMethodChangeKeys.Text = "Keyboard";
+            // 
             // menuTopComboBuild
             // 
             this.menuTopComboBuild.AccessibleRole = System.Windows.Forms.AccessibleRole.Cursor;
@@ -138,12 +144,6 @@ namespace Scene
             this.menuTopComboBuild.Name = "menuTopComboBuild";
             this.menuTopComboBuild.Size = new System.Drawing.Size(121, 28);
             this.menuTopComboBuild.Text = "Camera";
-            // 
-            // menuTopMethodChangeKeys
-            // 
-            this.menuTopMethodChangeKeys.Name = "menuTopMethodChangeKeys";
-            this.menuTopMethodChangeKeys.Size = new System.Drawing.Size(99, 28);
-            this.menuTopMethodChangeKeys.Text = "Keyboard";
             // 
             // panel1
             // 
