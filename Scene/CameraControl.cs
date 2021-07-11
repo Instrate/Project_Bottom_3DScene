@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace Scene
         public bool grabedMouse;
         Vector2 _lastPos;
         public float cameraSpeed;
+        private Stopwatch _clock;
 
         public CameraControl(Vector2i Size)
         {
@@ -25,6 +27,7 @@ namespace Scene
             grabedMouse = false;
             cameraSpeed = 7f;
             camera = new Camera(Vector3.UnitZ * 4, Size.X / (float)Size.Y);
+            _clock = new Stopwatch();
         }
 
         ~CameraControl()
@@ -43,9 +46,30 @@ namespace Scene
             shader.Use();
         }
 
-        public void MouseMove(MouseEventArgs mouse)
+        public void OnMouseMove(MouseEventArgs mouse)
         {
+            _clock.Restart();
+            float sensitivity = 0.3f;
+            if (grabedMouse == true)
+            {
+                if (_firstMove)
+                {
+                    _lastPos = new Vector2(mouse.X, mouse.Y);
+                    _firstMove = false;
+                }
+                else
+                {
 
+                    // Calculate the offset of the mouse position
+                    var deltaX = mouse.X - _lastPos.X;
+                    var deltaY = mouse.Y - _lastPos.Y;
+                    _lastPos = new Vector2(mouse.X, mouse.Y);
+
+                    // Apply the camera pitch and yaw (we clamp the pitch in the camera class)
+                    camera.Yaw -= deltaX * sensitivity;
+                    camera.Pitch -= deltaY * sensitivity; // reversed since y-coordinates range from bottom to top
+                }
+            }
         }
 
         public void OnMouseLeave()
@@ -56,27 +80,31 @@ namespace Scene
 
         public void OnKeyDown(PreviewKeyDownEventArgs e)
         {
-            //double time = _clock.Elapsed.TotalMilliseconds / 1000.0;
-            //_clock.Restart();
+            double time = _clock.Elapsed.TotalMilliseconds / 1000.0;
+            if(time > 1000)
+            {
+                time = 1000;
+            }
+            _clock.Restart();
             float offset = 5;
             Keys input = e.KeyCode;
             switch (input)
             {
                 case Keys.W:
                     {
-                        //camera.Position += camera.Front * cameraSpeed * (float)time;
+                        camera.Position += camera.Front * cameraSpeed * (float)time;
                     }; break;
                 case Keys.S:
                     {
-                        //camera.Position -= camera.Front * cameraSpeed * (float)time;
+                        camera.Position -= camera.Front * cameraSpeed * (float)time;
                     }; break;
                 case Keys.A:
                     {
-                        //camera.Position -= camera.Right * cameraSpeed * (float)time;
+                        camera.Position -= camera.Right * cameraSpeed * (float)time;
                     }; break;
                 case Keys.D:
                     {
-                        //camera.Position += camera.Right * cameraSpeed * (float)time;
+                        camera.Position += camera.Right * cameraSpeed * (float)time;
                     }; break;
                 case Keys.Oemplus:
                     {

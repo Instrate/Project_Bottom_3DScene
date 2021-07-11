@@ -23,7 +23,7 @@ namespace Scene
         Elements scene = null;
         bool _glLoaded = false;
         bool _renderFull = true;
-
+        DebugHelper cmd = null;
 
         public FormApplication()
         {
@@ -47,6 +47,7 @@ namespace Scene
             glWindow.Select();
             _glLoaded = true;
 
+            cmd = new DebugHelper();
             //dataLoad();
         }
 
@@ -60,10 +61,11 @@ namespace Scene
         }
 
         
-
         private void OnKeyPrewDown(object sender, PreviewKeyDownEventArgs e)
         {
+            //cmd.Write("echo OnKeyPrewDown: " + e.KeyData.ToString());
             scene.camControl.OnKeyDown(e);
+            glWindow.Invalidate();
             //scene..OnKeyDown(e);
             //Render();
         }
@@ -93,7 +95,7 @@ namespace Scene
 
         private void glOnDraw(object sender, MouseEventArgs e)
         {
-            //scene.OnMouseMove(e);
+            scene.camControl.OnMouseMove(e);
             if (_renderFull)
             {
                 Renderer.render("scene", glWindow, scene);

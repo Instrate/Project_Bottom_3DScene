@@ -46,8 +46,9 @@ namespace Scene
             this.glWindow.Size = new System.Drawing.Size(781, 590);
             this.glWindow.TabIndex = 0;
             this.glWindow.Text = "glWindow";
-            this.glWindow.Load += new System.EventHandler(this.OnLoad);
+            this.glWindow.Load += new System.EventHandler(this.glOnLoad);
             this.glWindow.Paint += new System.Windows.Forms.PaintEventHandler(this.glOnPaint);
+            this.glWindow.MouseMove += new System.Windows.Forms.MouseEventHandler(this.glOnDraw);
             this.glWindow.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.OnKeyPrewDown);
             this.glWindow.Resize += new System.EventHandler(this.glOnResize);
             // 

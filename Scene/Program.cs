@@ -12,7 +12,7 @@ namespace Scene
         ///  The main entry point for the application.
         /// </summary>
         [MTAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
