@@ -40,15 +40,21 @@ namespace Scene
                 X = glWindow.Width,
                 Y = glWindow.Height
             };
-            scene = new Elements(size);
-
+            scene = new Elements(size, 100);
 
             glWindow.Resize += glOnResize;
             glWindow.Select();
             _glLoaded = true;
 
             cmd = new DebugHelper();
-            //dataLoad();
+            dataLoad();
+        }
+
+        public void dataLoad()
+        {
+            dataGridSection.Rows.Add();
+            dataGridSection.Rows.Add();
+
         }
 
         private void OnResize(object sender, EventArgs e)
@@ -63,47 +69,39 @@ namespace Scene
         
         private void OnKeyPrewDown(object sender, PreviewKeyDownEventArgs e)
         {
-            //cmd.Write("echo OnKeyPrewDown: " + e.KeyData.ToString());
             scene.camControl.OnKeyDown(e);
-            glWindow.Invalidate();
-            //scene..OnKeyDown(e);
-            //Render();
+            Render();
         }
 
         private void glOnLoad(object sender, EventArgs e)
         {
             GL.ClearColor(Color.FromArgb(88, 94, 93, 255));
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Blend | EnableCap.FogCoordArray);
             GL.Viewport(0, 0, glWindow.Width, glWindow.Height);
+            glWindow.MakeCurrent();
             glWindow.Invalidate();
             GL.Flush();
-            //GL.Viewport(0, 0, glProfil.Width, glProfile.Height);
-            //glWindow.Invalidate();
         }
 
         private void glOnPaint(object sender, PaintEventArgs e)
         {
-            //render
-            if (_renderFull) {
-                Renderer.render("scene",glWindow,scene);
-                }
-            else
-            {
-                Renderer.render("projection", glWindow, scene);
-            }
+            Render();
         }
 
         private void glOnDraw(object sender, MouseEventArgs e)
         {
-            scene.camControl.OnMouseMove(e);
-            if (_renderFull)
+            Vector2i point = new Vector2i
             {
-                Renderer.render("scene", glWindow, scene);
-            }
-            else
-            {
-                Renderer.render("projection", glWindow, scene);
-            }
+                X = this.Size.Width / 2,
+                Y = this.Size.Height / 2
+            };
+
+            //Cursor = new System.Windows.Forms.Cursor(Cursor.Current.Handle);
+            //System.Windows.Forms.Cursor.Position = new Point(point.X, point.Y);
+
+            scene.camControl.OnMouseMove(e,glWindow.Size);
+            Render();
         }
 
         private void glOnResize(object sender, EventArgs e)
@@ -115,6 +113,40 @@ namespace Scene
             glWindow.MakeCurrent();
             GL.Viewport(0, 0, glWindow.Width, glWindow.Height);
             glWindow.Invalidate();
+        }
+
+        private void bottomChangeSharp(object sender, EventArgs e)
+        {
+            Vector2i size = new Vector2i()
+            {
+                X = glWindow.Width,
+                Y = glWindow.Height
+            };
+            scene = new Elements(size,(uint) scaleSharp.Value);
+            glWindow.Focus();
+        }
+
+        private void glOnMouseLeave(object sender, EventArgs e)
+        {
+            scene.camControl.OnMouseLeave();
+        }
+
+        public void Render()
+        {
+            if (_renderFull)
+            {
+                Renderer.render("scene", glWindow, scene);
+            }
+            else
+            {
+                Renderer.render("projection", glWindow, scene);
+            }
+        }
+
+        private void comboCamera_SelectedValueChanged(object sender, EventArgs e)
+        {
+            scene.camControl.viewStyle = comboCamera.SelectedIndex;
+            glWindow.Focus();
         }
     }
 }

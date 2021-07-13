@@ -22,7 +22,7 @@ namespace Scene
 
         public void Write(string command)
         {
-            console.StandardInput.WriteLine(command);
+            console.StandardInput.WriteLine("echo " + command);
         }
 
     }

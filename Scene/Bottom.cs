@@ -12,11 +12,11 @@ namespace Scene
     {
         ObjectArrayPlane array;
 
-        public Bottom(float x, float y, float z, Shader shader)
+        public Bottom(float x, float y, float z, uint scale, Shader shader)
         {
             float x1 = x / 2;
             float y1 = y / 2;
-            uint a = 100;
+            uint a = scale;
             float[] X = Functions.arrange(-x1, x1, a);
             float[] Y = Functions.arrange(-y1, y1, a);
             float[][] Z = new float[a][];
@@ -51,7 +51,7 @@ namespace Scene
         public void defineBottom(float[] x, float[] y, float[][] z, Shader shader)
         {
             array = new ObjectArrayPlane(x, y, z, shader);
-            array.loadTextureFromFile("Resources/sqr.png");
+            array.loadTextureFromFile("Resources/spr.png");
         }
 
 

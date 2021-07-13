@@ -14,7 +14,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Scene
 {
-    class ObjectArrayPlane
+    public class ObjectArrayPlane
     {
         // structure of an object
         public Square[][] squares;
@@ -54,7 +54,7 @@ namespace Scene
         public void loadTextureFromFile(string path)
         {
             texture = Texture.LoadFromFile(path);
-            texture.Use(TextureUnit.Texture0);
+            //texture.Use(TextureUnit.Texture0);
         }
 
         public void OnRenderFrame(Shader shader)

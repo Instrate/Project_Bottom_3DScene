@@ -14,7 +14,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Scene
 {
-    class Square
+    public class Square
     {
         // vertices(3) > color(3) > texture(2) = 8
         public float[] _vertices;
@@ -33,7 +33,7 @@ namespace Scene
             0.0f, 0.0f
         };
 
-        public readonly float[] color =
+        public readonly float[] _normal =
         {
             1f, 1f, 1f,
             1f, 1f, 1f,
@@ -45,7 +45,7 @@ namespace Scene
             0, 1, 3,
             1, 2, 3
         };
-        
+
         Texture texture;
 
         public Square(float[] x, float[] y, float[] z)
@@ -59,12 +59,12 @@ namespace Scene
             _buildVertice(v1, v2);
             _standartBuildAndLoad();
         }
-        
+
         // use other functions to continue building
         private void _standartBuildAndLoad()
         {
             _buildTextureVertice();
-            _buildColorVertice();
+            _buildNormalVertice();
             _loadBufferObject();
             _loadArrayObject();
             _loadElementBufferObject();
@@ -120,17 +120,17 @@ namespace Scene
             }
         }
 
-        // add color values to vertices
-        void _buildColorVertice()
+        // add normal values to vertices
+        void _buildNormalVertice()
         {
             int offset = _vertices.Length / 4;
-            for(int i = 3, j = 0; i < _vertices.Length; i += offset-2, j++)
+            for (int i = 3, j = 0; i < _vertices.Length; i += offset - 2, j++)
             {
-                _vertices[i] = color[j];
+                _vertices[i] = _normal[j];
                 i++; j++;
-                _vertices[i] = color[j];
+                _vertices[i] = _normal[j];
                 i++; j++;
-                _vertices[i] = color[j];
+                _vertices[i] = _normal[j];
             }
         }
 
@@ -179,13 +179,13 @@ namespace Scene
         public void loadTextureFromFile(string path)
         {
             texture = Texture.LoadFromFile(path);
-            texture.Use(TextureUnit.Texture0);
+            //texture.Use(TextureUnit.Texture0);
         }
 
         // render the triangular square 
         public void OnRenderFrame(Shader shader)
         {
-            //texture.Use(TextureUnit.Texture0);
+            texture.Use(TextureUnit.Texture0);
             shader.Use();
             GL.BindVertexArray(_vertexArrayObject);
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);

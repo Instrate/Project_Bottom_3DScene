@@ -31,7 +31,7 @@ namespace Scene
         public static float funcTest(float x, float y)
         {
            
-            return Convert.ToSingle((Math.Sin(x) - Math.Cos(y) + Math.Sin(x + y) - Math.Cos(x + y)) * Math.Cos(x - y));
+            return Convert.ToSingle(Math.Sin(x)+Math.Cos(y));
         }
 
         public static float funcLineZValue(float x, float x1, float x2, float y1, float y2, float z1, float z2)

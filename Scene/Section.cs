@@ -8,13 +8,14 @@ using LearnOpenTK.Common;
 
 namespace Scene
 {
-    class Section : IElement
+    public class Section : Square
     {
-        Square array;
+        public Square array;
 
-        public Section()
+        public Section(float[] v1, float[] v2) : base(v1,v2)
         {
-
+            array = new Square(v1,v2);
+            array.loadTextureFromFile("Resources/plane.png");
         }
 
         ~Section()
@@ -22,9 +23,9 @@ namespace Scene
 
         }
 
-        public void OnRender(Shader shader) { }
+        //public void OnRender(Shader shader) { }
 
-        public void OnUnload() { }
+        //public void OnUnload() { }
 
         public float[][] doVerticesToArray(float[] vert)
         {

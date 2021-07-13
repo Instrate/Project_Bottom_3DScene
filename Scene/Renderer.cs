@@ -28,7 +28,7 @@ namespace Scene
             elements.bottom.OnRender(elements.shader);
             if (elements.section != null)
             {
-                elements.section.OnRender(elements.shader);
+                elements.section.array.OnRenderFrame(elements.shader);
             }
             elements.camControl.OnRender(elements.shader);
         }

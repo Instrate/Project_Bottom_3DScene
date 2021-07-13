@@ -17,7 +17,7 @@ namespace Scene
         public CameraControl camControl = null;
         public Shader shader = null;
 
-        public Elements(Vector2i Size)
+        public Elements(Vector2i Size, uint scale)
         {
             shader = new Shader(PATH.SHADER_VERT, PATH.SHADER_FRAG);
             shader.Use();
@@ -25,7 +25,9 @@ namespace Scene
 
             camControl = new CameraControl(Size);
 
-            bottom = new Bottom(10, 10, 0, shader);
+            bottom = new Bottom(20, 20, 0, scale, shader);
+
+            section = new Section(new float[] { 0, 0, 0 }, new float[] { 3, 3, 0 });
             
         }
 
