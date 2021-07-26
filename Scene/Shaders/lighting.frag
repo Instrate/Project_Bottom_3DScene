@@ -1,4 +1,4 @@
-﻿#version 330 core
+﻿#version 440 core
 out vec4 FragColor;
 
 //In order to calculate some basic lighting we need a few things per model basis, and a few things per fragment basis:

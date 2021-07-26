@@ -1,4 +1,4 @@
-#version 330
+#version 440
 out vec4 outputTexture;
 
 out vec4 FragColor;
