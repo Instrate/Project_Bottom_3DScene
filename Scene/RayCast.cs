@@ -9,6 +9,8 @@ namespace Scene
 {
     public class RayCast
     {
+
+
         //private void FindClosestHitByRay(Vector3 rayWorldCoordinates)
         //{
         //    AGameObject bestCandidate = null;

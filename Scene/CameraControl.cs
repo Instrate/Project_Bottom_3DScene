@@ -156,6 +156,27 @@ namespace Scene
                     {
                         cameraSpeed = 2.5f;
                     }; break;
+                case Keys.Up:
+                    {
+                        Vector3 temp = camera.Position;
+                        camera.Position = new Vector3()
+                        {
+                            X = temp.X,
+                            Y = temp.Y,
+                            Z = temp.Z - 1
+                        };
+
+                    }; break;
+                case Keys.Down:
+                    {
+                        Vector3 temp = camera.Position;
+                        camera.Position = new Vector3()
+                        {
+                            X = temp.X,
+                            Y = temp.Y,
+                            Z = temp.Z - 1
+                        };
+                    }; break;
                 case Keys.E:
                     {
                         if (grabedMouse == false)
@@ -197,6 +218,11 @@ namespace Scene
                 default: break;
             }
             
+        }
+
+        public void rayCast()
+        {
+
         }
     }
 }
